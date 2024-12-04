@@ -68,7 +68,7 @@ def read_from_binary_file(filename):
 
         for item in freq_data:
             if ':' in item:  # Проверка на наличие двоеточия
-                char, freq = item.split(':')  # Используем 1, чтобы разбить только один раз
+                char, freq = item.split(':')  
 
                 if char == '':
                     char = ' '
@@ -86,7 +86,7 @@ def decode(encoded_text, root):
     for bit in encoded_text:
         current_node = current_node.left if bit == '0' else current_node.right
         if current_node.char is not None:
-            decoded_output += current_node.char  # Здесь пробелы остаются
+            decoded_output += current_node.char  
             current_node = root
     return decoded_output
 
@@ -149,6 +149,6 @@ def main(input_filename, output_filename):
 
 
 # Пример использования
-input_filename = 'input.txt'  # Входной файл с текстом
-output_filename = 'output.bin'  # Выходной бинарный файл
+input_filename = 'input.txt'  
+output_filename = 'output.bin' 
 main(input_filename, output_filename)

@@ -147,8 +147,6 @@ def main(input_filename, output_filename):
     else:
         print("Неверный выбор. Пожалуйста, введите 'encode' или 'decode'.")
 
-
-# Пример использования
 input_filename = 'input.txt'  
 output_filename = 'output.bin' 
 main(input_filename, output_filename)

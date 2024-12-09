@@ -53,7 +53,7 @@ def write_to_binary_file(encoded_text, frequency, filename):
 
     with open(filename, 'wb') as f:
         # Сохраняем частоты в строку через пробел
-        freq_string = ' '.join([f"{char}:{freq}" for char, freq in frequency.items()])
+        freq_string = ' '.join([f"{ord(char)}:{freq}" for char, freq in frequency.items()])
         f.write(freq_string.encode('utf-8'))
         f.write(b"\n")  # Пустая строка, чтобы отделить частоты от закодированного текста
         f.write(byte_array)
@@ -67,18 +67,17 @@ def read_from_binary_file(filename):
         freq_data = line.decode('utf-8').strip().split(' ')
 
         for item in freq_data:
-            if ':' in item:  # Проверка на наличие двоеточия
-                char, freq = item.split(':')  
+            if ':' in item:  
+                char, freq = item.split(':', 1)  
 
                 if char == '':
                     char = ' '
 
-                frequency[char] = int(freq)  # Записываем частоту
+                frequency[chr(int(char))] = int(freq)  
 
         encoded_text = ''.join(format(byte, '08b') for byte in f.read())
 
     return frequency, encoded_text
-
 
 def decode(encoded_text, root):
     decoded_output = ""
@@ -124,7 +123,7 @@ def main(input_filename, output_filename):
         for char, code in huffman_codes.items():
             print(f"'{char}': {code}")
 
-        original_size = len(text)
+        original_size = len(text.encode('utf-8'))
         encoded_size = len(encoded_text) // 8 + (1 if len(encoded_text) % 8 else 0)
         print("\nРазмер исходного текста:", original_size, "байт")
         print("Размер закодированного текста:", encoded_size, "байт")
@@ -143,10 +142,13 @@ def main(input_filename, output_filename):
 
         print("\nДекодированный текст:")
         print(decoded_text)
+        endfile = open('output.txt', 'w', encoding='utf-8')
+        endfile.write(decoded_text)
+
 
     else:
         print("Неверный выбор. Пожалуйста, введите 'encode' или 'decode'.")
 
-input_filename = 'input.txt'  
-output_filename = 'output.bin' 
+input_filename = 'Pivo.txt'  
+output_filename = 'output.bin'  
 main(input_filename, output_filename)
